@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69bb96f9-aec3-4d4b-9d7a-0344dfaa7223" name="Changes" comment="First Commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DBITAvc/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/DBITAvc/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admissionapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/admissionapp/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admissionapp/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/admissionapp/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admissionapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/admissionapp/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admissionapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/admissionapp/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admissionapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/admissionapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/application_pdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/application_pdf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dashboard.html" afterDir="false" />
-    </list>
+    <list default="true" id="69bb96f9-aec3-4d4b-9d7a-0344dfaa7223" name="Changes" comment="First Commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -107,7 +95,7 @@
       <option name="presentableId" value="Default" />
       <updated>1754298855701</updated>
       <workItem from="1754298856756" duration="31347000" />
-      <workItem from="1754401487635" duration="24800000" />
+      <workItem from="1754401487635" duration="25338000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <option name="closed" value="true" />
