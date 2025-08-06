@@ -1,0 +1,422 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Edit CAP Application{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+    <h2 class="mb-4">Edit Your Application</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <!-- Candidate Details -->
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">1. Candidate Details</div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.surname.id_for_label }}" class="form-label">Surname</label>
+                        {{ form.surname|add_class:"form-control" }}
+                        {{ form.surname.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                        {{ form.first_name|add_class:"form-control" }}
+                        {{ form.first_name.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.father_name.id_for_label }}" class="form-label">Father's Name</label>
+                        {{ form.father_name|add_class:"form-control" }}
+                        {{ form.father_name.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.mother_name.id_for_label }}" class="form-label">Mother's Name</label>
+                        {{ form.mother_name|add_class:"form-control" }}
+                        {{ form.mother_name.errors }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.gender.id_for_label }}" class="form-label">Gender</label>
+                        {{ form.gender|add_class:"form-select" }}
+                        {{ form.gender.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.mother_tongue.id_for_label }}" class="form-label">Mother Tongue</label>
+                        {{ form.mother_tongue|add_class:"form-control" }}
+                        {{ form.mother_tongue.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.religion.id_for_label }}" class="form-label">Religion</label>
+                        {{ form.religion|add_class:"form-control" }}
+                        {{ form.religion.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.caste.id_for_label }}" class="form-label">Caste</label>
+                        {{ form.caste|add_class:"form-control" }}
+                        {{ form.caste.errors }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.seat_type.id_for_label }}" class="form-label">Seat Type</label>
+                        {{ form.seat_type|add_class:"form-control" }}
+                        {{ form.seat_type.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.category_allotment.id_for_label }}" class="form-label">Category (as per allotment letter)</label>
+                        {{ form.category_allotment|add_class:"form-control" }}
+                        {{ form.category_allotment.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.anti_ragging_ref.id_for_label }}" class="form-label">Anti-Ragging Ref No.</label>
+                        {{ form.anti_ragging_ref|add_class:"form-control" }}
+                        {{ form.anti_ragging_ref.errors }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-1">
+                        <label for="{{ form.dob_day.id_for_label }}" class="form-label">DOB Day</label>
+                        {{ form.dob_day|add_class:"form-control" }}
+                        {{ form.dob_day.errors }}
+                    </div>
+                    <div class="col-md-1">
+                        <label for="{{ form.dob_month.id_for_label }}" class="form-label">DOB Month</label>
+                        {{ form.dob_month|add_class:"form-control" }}
+                        {{ form.dob_month.errors }}
+                    </div>
+                    <div class="col-md-1">
+                        <label for="{{ form.dob_year.id_for_label }}" class="form-label">DOB Year</label>
+                        {{ form.dob_year|add_class:"form-control" }}
+                        {{ form.dob_year.errors }}
+                    </div>
+                    <div class="col-md-1">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="number" class="form-control" disabled value="{{ form.instance.age }}">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <label for="{{ form.birth_place.id_for_label }}" class="form-label">Place of Birth</label>
+                        {{ form.birth_place|add_class:"form-control" }}
+                        {{ form.birth_place.errors }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.birth_district.id_for_label }}" class="form-label">District</label>
+                        {{ form.birth_district|add_class:"form-control" }}
+                        {{ form.birth_district.errors }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.birth_state.id_for_label }}" class="form-label">State</label>
+                        {{ form.birth_state|add_class:"form-control" }}
+                        {{ form.birth_state.errors }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.nationality.id_for_label }}" class="form-label">Nationality</label>
+                        {{ form.nationality|add_class:"form-control" }}
+                        {{ form.nationality.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Addresses & Contact -->
+        <div class="card mb-3">
+            <div class="card-header bg-success text-white">2. Addresses & Contact</div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-5">
+                        <label for="{{ form.correspondence_address.id_for_label }}" class="form-label">Address for Correspondence</label>
+                        {{ form.correspondence_address|add_class:"form-control" }}
+                        {{ form.correspondence_address.errors }}
+                    </div>
+                    <div class="col-md-2">
+                        <label for="{{ form.correspondence_pin.id_for_label }}" class="form-label">Pin</label>
+                        {{ form.correspondence_pin|add_class:"form-control" }}
+                        {{ form.correspondence_pin.errors }}
+                    </div>
+                    <div class="col-md-5">
+                        <label for="{{ form.permanent_address.id_for_label }}" class="form-label">Permanent Address</label>
+                        {{ form.permanent_address|add_class:"form-control" }}
+                        {{ form.permanent_address.errors }}
+                    </div>
+                    <div class="col-md-2">
+                        <label for="{{ form.permanent_pin.id_for_label }}" class="form-label">Pin</label>
+                        {{ form.permanent_pin|add_class:"form-control" }}
+                        {{ form.permanent_pin.errors }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.student_email.id_for_label }}" class="form-label">Student Email ID</label>
+                        {{ form.student_email|add_class:"form-control" }}
+                        {{ form.student_email.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.student_cell.id_for_label }}" class="form-label">Student Cell No.</label>
+                        {{ form.student_cell|add_class:"form-control" }}
+                        {{ form.student_cell.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.father_cell.id_for_label }}" class="form-label">Father's Cell No.</label>
+                        {{ form.father_cell|add_class:"form-control" }}
+                        {{ form.father_cell.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.mother_cell.id_for_label }}" class="form-label">Mother's Cell No.</label>
+                        {{ form.mother_cell|add_class:"form-control" }}
+                        {{ form.mother_cell.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent/Guardian Details -->
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">3. Parent/Guardian Details</div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.father_fullname.id_for_label }}" class="form-label">Father's Name</label>
+                        {{ form.father_fullname|add_class:"form-control" }}
+                        {{ form.father_fullname.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.father_designation.id_for_label }}" class="form-label">Designation</label>
+                        {{ form.father_designation|add_class:"form-control" }}
+                        {{ form.father_designation.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.father_email.id_for_label }}" class="form-label">Email</label>
+                        {{ form.father_email|add_class:"form-control" }}
+                        {{ form.father_email.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.father_income.id_for_label }}" class="form-label">Annual Income</label>
+                        {{ form.father_income|add_class:"form-control" }}
+                        {{ form.father_income.errors }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label for="{{ form.father_office_address.id_for_label }}" class="form-label">Father's Office Address</label>
+                        {{ form.father_office_address|add_class:"form-control" }}
+                        {{ form.father_office_address.errors }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.mother_fullname.id_for_label }}" class="form-label">Mother's Name</label>
+                        {{ form.mother_fullname|add_class:"form-control" }}
+                        {{ form.mother_fullname.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.mother_designation.id_for_label }}" class="form-label">Designation</label>
+                        {{ form.mother_designation|add_class:"form-control" }}
+                        {{ form.mother_designation.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.mother_email.id_for_label }}" class="form-label">Email</label>
+                        {{ form.mother_email|add_class:"form-control" }}
+                        {{ form.mother_email.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.mother_income.id_for_label }}" class="form-label">Annual Income</label>
+                        {{ form.mother_income|add_class:"form-control" }}
+                        {{ form.mother_income.errors }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label for="{{ form.mother_office_address.id_for_label }}" class="form-label">Mother's Office Address</label>
+                        {{ form.mother_office_address|add_class:"form-control" }}
+                        {{ form.mother_office_address.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Academic Details -->
+        <div class="card mb-3">
+            <div class="card-header bg-warning text-dark">4. Academic Details</div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.name_hsc.id_for_label }}" class="form-label">Name as per HSC Marksheet</label>
+                        {{ form.name_hsc|add_class:"form-control" }}
+                        {{ form.name_hsc.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.hsc_gender.id_for_label }}" class="form-label">Gender</label>
+                        {{ form.hsc_gender|add_class:"form-select" }}
+                        {{ form.hsc_gender.errors }}
+                    </div>
+                </div>
+                <h5>X (SSC) Examination</h5>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.x_passing_month_year.id_for_label }}" class="form-label">Month & Year of Passing</label>
+                        {{ form.x_passing_month_year|add_class:"form-control" }}
+                        {{ form.x_passing_month_year.errors }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.x_school.id_for_label }}" class="form-label">Institution Name & Address</label>
+                        {{ form.x_school|add_class:"form-control" }}
+                        {{ form.x_school.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.x_board.id_for_label }}" class="form-label">Board</label>
+                        {{ form.x_board|add_class:"form-control" }}
+                        {{ form.x_board.errors }}
+                    </div>
+                </div>
+                <h5>XII (HSC) Examination</h5>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.xii_passing_month_year.id_for_label }}" class="form-label">Month & Year of Passing</label>
+                        {{ form.xii_passing_month_year|add_class:"form-control" }}
+                        {{ form.xii_passing_month_year.errors }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.xii_school.id_for_label }}" class="form-label">Institution Name & Address</label>
+                        {{ form.xii_school|add_class:"form-control" }}
+                        {{ form.xii_school.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.xii_board.id_for_label }}" class="form-label">Board</label>
+                        {{ form.xii_board|add_class:"form-control" }}
+                        {{ form.xii_board.errors }}
+                    </div>
+                </div>
+
+                <h5>MHT-CET 2025 Details</h5>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.mhtcet_rollno.id_for_label }}" class="form-label">Roll No</label>
+                        {{ form.mhtcet_rollno|add_class:"form-control" }}
+                        {{ form.mhtcet_rollno.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.state_merit_no.id_for_label }}" class="form-label">State Merit No</label>
+                        {{ form.state_merit_no|add_class:"form-control" }}
+                        {{ form.state_merit_no.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.mhtcet_percentile.id_for_label }}" class="form-label">Percentile</label>
+                        {{ form.mhtcet_percentile|add_class:"form-control" }}
+                        {{ form.mhtcet_percentile.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.application_id.id_for_label }}" class="form-label">Application ID</label>
+                        {{ form.application_id|add_class:"form-control" }}
+                        {{ form.application_id.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inter-se Merit & Qualifying Marks -->
+        <div class="card mb-3">
+            <div class="card-header bg-danger text-white">5. Inter-se Merit & Qualifying Marks</div>
+            <div class="card-body">
+                <h5 class="mt-2">A. XIIth Marks</h5>
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <label for="{{ form.xii_phy.id_for_label }}" class="form-label">Physics</label>
+                        {{ form.xii_phy|add_class:"form-control" }}
+                        {{ form.xii_phy.errors }}
+                    </div>
+                    <div class="col-md-2">
+                        <label for="{{ form.xii_chem.id_for_label }}" class="form-label">Chemistry</label>
+                        {{ form.xii_chem|add_class:"form-control" }}
+                        {{ form.xii_chem.errors }}
+                    </div>
+                    <div class="col-md-2">
+                        <label for="{{ form.xii_math.id_for_label }}" class="form-label">Mathematics</label>
+                        {{ form.xii_math|add_class:"form-control" }}
+                        {{ form.xii_math.errors }}
+                    </div>
+                </div>
+
+                <h5>B. Qualifying Exam (Out of 300, PCM)</h5>
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <label for="{{ form.qualifying_phy.id_for_label }}" class="form-label">Physics</label>
+                        {{ form.qualifying_phy|add_class:"form-control" }}
+                        {{ form.qualifying_phy.errors }}
+                    </div>
+                    <div class="col-md-2">
+                        <label for="{{ form.qualifying_chem.id_for_label }}" class="form-label">Chemistry</label>
+                        {{ form.qualifying_chem|add_class:"form-control" }}
+                        {{ form.qualifying_chem.errors }}
+                    </div>
+                    <div class="col-md-2">
+                        <label for="{{ form.qualifying_math.id_for_label }}" class="form-label">Mathematics</label>
+                        {{ form.qualifying_math|add_class:"form-control" }}
+                        {{ form.qualifying_math.errors }}
+                    </div>
+                </div>
+
+                <h5>C. Tie Breaker Fields</h5>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.ssc_agg.id_for_label }}" class="form-label">Total Aggregate Marks at Xth/SSC Exam</label>
+                        {{ form.ssc_agg|add_class:"form-control" }}
+                        {{ form.ssc_agg.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.ssc_outof.id_for_label }}" class="form-label">Out of (Xth/SSC)</label>
+                        {{ form.ssc_outof|add_class:"form-control" }}
+                        {{ form.ssc_outof.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.ssc_percentage.id_for_label }}" class="form-label">Percentage (Xth/SSC)</label>
+                        {{ form.ssc_percentage|add_class:"form-control" }}
+                        {{ form.ssc_percentage.errors }}
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.ssc_math.id_for_label }}" class="form-label">Mathematics Marks at Xth/SSC</label>
+                        {{ form.ssc_math|add_class:"form-control" }}
+                        {{ form.ssc_math.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.ssc_math_outof.id_for_label }}" class="form-label">Math Out of (Xth/SSC)</label>
+                        {{ form.ssc_math_outof|add_class:"form-control" }}
+                        {{ form.ssc_math_outof.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.ssc_math_percentage.id_for_label }}" class="form-label">Math Percentage (Xth/SSC)</label>
+                        {{ form.ssc_math_percentage|add_class:"form-control" }}
+                        {{ form.ssc_math_percentage.errors }}
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label for="{{ form.hsc_agg.id_for_label }}" class="form-label">Total Aggregate Marks at XIIth Exam</label>
+                        {{ form.hsc_agg|add_class:"form-control" }}
+                        {{ form.hsc_agg.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.hsc_outof.id_for_label }}" class="form-label">Out of (XIIth)</label>
+                        {{ form.hsc_outof|add_class:"form-control" }}
+                        {{ form.hsc_outof.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ form.hsc_percentage.id_for_label }}" class="form-label">Percentage (XIIth)</label>
+                        {{ form.hsc_percentage|add_class:"form-control" }}
+                        {{ form.hsc_percentage.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Application Details - CAP Admission{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+{% if app %}
+    <h2 class="mb-4">Your CAP Application Details</h2>
+    <div class="card mb-3">
+        <div class="card-header bg-primary text-white">1. Candidate Details</div>
+        <div class="card-body">
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Surname:</strong> {{ app.surname }}</div>
+                <div class="col-md-3"><strong>First Name:</strong> {{ app.first_name }}</div>
+                <div class="col-md-3"><strong>Father's Name:</strong> {{ app.father_name }}</div>
+                <div class="col-md-3"><strong>Mother's Name:</strong> {{ app.mother_name }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Gender:</strong> {{ app.gender }}</div>
+                <div class="col-md-3"><strong>Mother Tongue:</strong> {{ app.mother_tongue }}</div>
+                <div class="col-md-3"><strong>Religion:</strong> {{ app.religion }}</div>
+                <div class="col-md-3"><strong>Caste:</strong> {{ app.caste }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Seat Type:</strong> {{ app.seat_type }}</div>
+                <div class="col-md-3"><strong>Category:</strong> {{ app.category_allotment }}</div>
+                <div class="col-md-3"><strong>Anti-Ragging Ref:</strong> {{ app.anti_ragging_ref }}</div>
+                <div class="col-md-3"><strong>Date of Birth:</strong> {{ app.dob }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Age:</strong> {{ app.age }}</div>
+                <div class="col-md-3"><strong>Birth Place:</strong> {{ app.birth_place }}</div>
+                <div class="col-md-3"><strong>District:</strong> {{ app.birth_district }}</div>
+                <div class="col-md-3"><strong>State:</strong> {{ app.birth_state }}</div>
+                <div class="col-md-3"><strong>Nationality:</strong> {{ app.nationality }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header bg-success text-white">2. Addresses & Contact</div>
+        <div class="card-body">
+            <div class="row mb-2">
+                <div class="col-md-4"><strong>Correspondence Address:</strong> {{ app.correspondence_address }}</div>
+                <div class="col-md-2"><strong>Pin:</strong> {{ app.correspondence_pin }}</div>
+                <div class="col-md-4"><strong>Permanent Address:</strong> {{ app.permanent_address }}</div>
+                <div class="col-md-2"><strong>Pin:</strong> {{ app.permanent_pin }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Student Email:</strong> {{ app.student_email }}</div>
+                <div class="col-md-3"><strong>Student Cell:</strong> {{ app.student_cell }}</div>
+                <div class="col-md-3"><strong>Father Cell:</strong> {{ app.father_cell }}</div>
+                <div class="col-md-3"><strong>Mother Cell:</strong> {{ app.mother_cell }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header bg-info text-white">3. Parent/Guardian Details</div>
+        <div class="card-body">
+            <h5>Father</h5>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Name:</strong> {{ app.father_fullname }}</div>
+                <div class="col-md-3"><strong>Designation:</strong> {{ app.father_designation }}</div>
+                <div class="col-md-3"><strong>Email:</strong> {{ app.father_email }}</div>
+                <div class="col-md-3"><strong>Income:</strong> {{ app.father_income }}</div>
+            </div>
+            <div class="mb-2"><strong>Office Address:</strong> {{ app.father_office_address }}</div>
+            <h5>Mother</h5>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Name:</strong> {{ app.mother_fullname }}</div>
+                <div class="col-md-3"><strong>Designation:</strong> {{ app.mother_designation }}</div>
+                <div class="col-md-3"><strong>Email:</strong> {{ app.mother_email }}</div>
+                <div class="col-md-3"><strong>Income:</strong> {{ app.mother_income }}</div>
+            </div>
+            <div><strong>Office Address:</strong> {{ app.mother_office_address }}</div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header bg-warning text-dark">4. Academic Details</div>
+        <div class="card-body">
+            <div class="mb-2"><strong>Name as per HSC:</strong> {{ app.name_hsc }}</div>
+            <div class="mb-2"><strong>HSC Gender:</strong> {{ app.hsc_gender }}</div>
+            <h5>X (SSC) Examination</h5>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Month/Year:</strong> {{ app.x_passing_month_year }}</div>
+                <div class="col-md-5"><strong>School:</strong> {{ app.x_school }}</div>
+                <div class="col-md-3"><strong>Board:</strong> {{ app.x_board }}</div>
+            </div>
+            <h5>XII (HSC) Examination</h5>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Month/Year:</strong> {{ app.xii_passing_month_year }}</div>
+                <div class="col-md-5"><strong>School:</strong> {{ app.xii_school }}</div>
+                <div class="col-md-3"><strong>Board:</strong> {{ app.xii_board }}</div>
+            </div>
+
+            <h5>MHT-CET 2025 Details</h5>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>Roll No:</strong> {{ app.mhtcet_rollno }}</div>
+                <div class="col-md-3"><strong>State Merit No:</strong> {{ app.state_merit_no }}</div>
+                <div class="col-md-3"><strong>Percentile:</strong> {{ app.mhtcet_percentile }}</div>
+                <div class="col-md-3"><strong>Application ID:</strong> {{ app.application_id }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header bg-danger text-white">5. Inter-se Merit & Qualifying Marks</div>
+        <div class="card-body">
+            <h5 class="mt-2">A. XIIth Marks</h5>
+            <div class="row mb-2">
+                <div class="col-md-2"><strong>Physics:</strong> {{ app.xii_phy }}</div>
+                <div class="col-md-2"><strong>Chemistry:</strong> {{ app.xii_chem }}</div>
+                <div class="col-md-2"><strong>Math:</strong> {{ app.xii_math }}</div>
+            </div>
+            <h5>B. Qualifying Exam (out of 300, PCM)</h5>
+            <div class="row mb-2">
+                <div class="col-md-2"><strong>Physics:</strong> {{ app.qualifying_phy }}</div>
+                <div class="col-md-2"><strong>Chemistry:</strong> {{ app.qualifying_chem }}</div>
+                <div class="col-md-2"><strong>Math:</strong> {{ app.qualifying_math }}</div>
+            </div>
+            <h5>C. Tie Breaker Fields</h5>
+            <div class="row mb-2">
+                <div class="col-md-3"><strong>SSC Marks:</strong> {{ app.ssc_agg }}/{{ app.ssc_outof }} ({{ app.ssc_percentage }}%)</div>
+                <div class="col-md-3"><strong>SSC Math:</strong> {{ app.ssc_math }}/{{ app.ssc_math_outof }} ({{ app.ssc_math_percentage }}%)</div>
+                <div class="col-md-3"><strong>HSC Marks:</strong> {{ app.hsc_agg }}/{{ app.hsc_outof }} ({{ app.hsc_percentage }}%)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 text-end">
+        <a href="{% url 'admissionapp:application_edit' %}" class="btn btn-primary">Edit Application</a>
+    </div>
+
+
+ {% else %}
+
+            <div class="alert alert-info" role="alert">
+                    <br><br>
+                You have not filled an application yet. Please <a href="{% url 'admissionapp:application_form' %}">fill the application</a>.
+             <br><br>
+            </div>
+        {% endif %}
+</div>
+{% endblock %}

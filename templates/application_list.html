@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}All Applications{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 mb-5">
+        <h2>All CAP Applications (Admin ONLY)</h2>
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{% url 'admissionapp:export_applications_excel' %}" class="btn btn-lg btn-success">
+                Export to Excel
+            </a>
+        </div>
+
+        <table class="table table-bordered table-hover align-middle mt-4">
+            <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Applicant Name</th>
+                <th>Email</th>
+                <th>Percentile</th>  <!-- Add this line -->
+                <th>Submitted On</th>
+                <th>Status</th>
+                <th>Details</th>
+                <th>Download</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for app in applications %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ app.first_name }} {{ app.surname }}</td>
+                    <td>{{ app.student_email }}</td>
+                    <td>{{ app.mhtcet_percentile }}</td> <!-- Add this line -->
+                    <td>{{ app.submitted_at|date:"F j, Y, g:i a" }}</td>
+                    <td>Submitted</td>
+                    <td>
+                        <a href="{% url 'admissionapp:application_admin_view' app.id %}" class="btn btn-info btn-sm">View</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'admissionapp:download_application_pdf_by_id' app.id %}"
+                           class="btn btn-outline-primary btn-sm" target="_blank">PDF</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Direct Second Year Diploma Admission Detail</h2>
+
+<p><strong>Full Name:</strong> {{ app.full_name }}</p>
+<p><strong>Religion:</strong> {{ app.religion }}</p>
+<p><strong>Correspondence Address:</strong> {{ app.correspondence_address }}</p>
+<p><strong>Student Cell No:</strong> {{ app.student_cell_no }}</p>
+<p><strong>Student Email:</strong> {{ app.student_email }}</p>
+<p><strong>Father Cell No:</strong> {{ app.father_cell_no }}</p>
+<p><strong>Date of Birth:</strong> {{ app.dob_day }}/{{ app.dob_month }}/{{ app.dob_year }}</p>
+<p><strong>Place of Birth:</strong> {{ app.place_of_birth }}</p>
+<p><strong>Nationality:</strong> {{ app.nationality }}</p>
+<p><strong>Passed Diploma Branch:</strong> {{ app.passed_diploma_branch }}</p>
+<p><strong>Diploma Passing Percentage:</strong> {{ app.diploma_passing_percentage }}</p>
+<p><strong>Application ID:</strong> {{ app.application_id }}</p>
+
+<a href="{% url 'admissionapp:second_year_admission' %}" class="btn btn-secondary mt-3">Edit Application</a>
+{% endblock %}
