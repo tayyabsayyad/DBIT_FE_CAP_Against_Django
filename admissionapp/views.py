@@ -1,12 +1,20 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-
+from django.http import HttpResponse
+from openpyxl import Workbook
+from .models import FirstYearAdmission, SecondYearAdmission
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from .models import FirstYearAdmission, SecondYearAdmission
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from django.http import HttpResponse
@@ -15,7 +23,7 @@ from openpyxl.utils import get_column_letter
 from io import BytesIO
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import FirstYearAdmissionForm, SecondYearAdmissionForm
+from .forms import FirstYearAdmissionForm, SecondYearAdmissionForm, RegistrationForm
 from .models import FirstYearAdmission, SecondYearAdmission
 
 
@@ -41,8 +49,7 @@ def first_year_admission_view(request):
     else:
         form = FirstYearAdmissionForm()
 
-    return render(request, 'admissionapp/first_year_form.html', {'form': form})
-
+    return render(request, 'first_year_form.html', {'form': form})
 
 @login_required
 def second_year_admission_view(request):
@@ -62,7 +69,7 @@ def second_year_admission_view(request):
     else:
         form = SecondYearAdmissionForm()
 
-    return render(request, 'admissionapp/second_year_form.html', {'form': form})
+    return render(request, 'second_year_form.html', {'form': form})
 
 @login_required
 def first_year_admission_detail(request):
@@ -83,63 +90,6 @@ def second_year_admission_detail(request):
     return render(request, 'second_year_detail.html', {'app': app})
 
 
-
-
-
-@login_required
-def application_form(request):
-    # Only allow single submission per user
-    try:
-        existing = request.user.cap_application
-        return redirect('admissionapp:application_view')
-    except CapApplication.DoesNotExist:
-        existing_app = None
-
-    if request.method == "POST":
-        form = CapApplicationForm(request.POST)
-        if form.is_valid():
-            app = form.save(commit=False)
-            app.dob = form.cleaned_data['dob']
-            app.age = form.cleaned_data['age']
-            app.user = request.user
-            app.save()
-            return redirect('admissionapp:application_view')
-    else:
-        form = CapApplicationForm()
-
-    return render(request, 'application_form.html', {'form': form})
-
-
-@login_required
-def application_edit(request):
-    # Get or 404 the current user's application
-    app = get_object_or_404(CapApplication, user=request.user)
-
-    if request.method == 'POST':
-        form = CapApplicationForm(request.POST, instance=app)
-        if form.is_valid():
-            app = form.save(commit=False)
-            # Handle DOB fields if present
-            if hasattr(form, 'cleaned_data'):
-                if 'dob' in form.cleaned_data:
-                    app.dob = form.cleaned_data['dob']
-                if 'age' in form.cleaned_data:
-                    app.age = form.cleaned_data['age']
-            app.save()
-            return redirect('application_view')
-    else:
-        # Prepopulate DOB fields if using split day/month/year in your form
-        initial = {}
-        if app.dob:
-            initial = {
-                'dob_day': app.dob.day,
-                'dob_month': app.dob.month,
-                'dob_year': app.dob.year
-            }
-        form = CapApplicationForm(instance=app, initial=initial)
-
-    return render(request, 'application_edit.html', {'form': form, 'edit_mode': True})
-
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -154,118 +104,146 @@ def register(request):
 def forgot_password(request):
     return render(request, 'forgot_password.html')
 
-@login_required
-def application_view(request):
-    # Show the current user's application (or an error if missing)
-    try:
-        app = request.user.cap_application
-    except CapApplication.DoesNotExist:
-        app = None
 
-    return render(request, 'application_view.html', {'app': app})
-
-
-@login_required
-def application_edit(request):
-    # Edit the current user's application
-    app = get_object_or_404(CapApplication, user=request.user)
-    if request.method == 'POST':
-        form = CapApplicationForm(request.POST, instance=app)
-        if form.is_valid():
-            app = form.save(commit=False)
-            # If you handle DOB as 3 fields, set dob/age here from cleaned_data
-            if 'dob' in form.cleaned_data:
-                app.dob = form.cleaned_data['dob']
-            if 'age' in form.cleaned_data:
-                app.age = form.cleaned_data['age']
-            app.save()
-            return redirect('application_view')
-    else:
-        # Set initial data for dob_day/month/year from saved dob:
-        initial = {}
-        if app.dob:
-            initial = {
-                'dob_day': app.dob.day,
-                'dob_month': app.dob.month,
-                'dob_year': app.dob.year
-            }
-        form = CapApplicationForm(instance=app, initial=initial)
-    return render(request, 'application_form.html', {'form': form, 'edit_mode': True})
 
 @login_required
 def download_application_pdf(request):
-    try:
-        app = request.user.cap_application
-    except CapApplication.DoesNotExist:
-        # Redirect or show error if no application
-        return HttpResponse("No application found to generate PDF.", status=404)
-
-    html_string = render_to_string('application_pdf.html', {'app': app})
-    html = HTML(string=html_string)
+    fe_app = getattr(request.user, 'first_year_application', None)
+    se_app = getattr(request.user, 'second_year_application', None)
+    print("Asad",fe_app, se_app)
+    if fe_app:
+        is_fe_app = True
+        context = {'app': fe_app, 'is_fe_app' : is_fe_app}
+        template_name = 'application_pdf.html'
+    elif se_app:
+        context = {'app': se_app}
+        template_name = 'application_pdf.html'
+    else:
+        # Handle no application case
+        messages.error(request, "No application found to download.")
+        return redirect('admissionapp:dashboard')
+    print(context)
+    html_string = render_to_string(template_name, context)
+    html = HTML(string=html_string, base_url=request.build_absolute_uri())
     pdf = html.write_pdf()
-
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="CAP_Application_{}.pdf"'.format(request.user.username)
     return response
 
-@staff_member_required  # Only admins and staff can access
-def application_list(request):
-    applications = CapApplication.objects.all().select_related('user').order_by('-submitted_at')
-    return render(request, 'application_list.html', {'applications': applications})
 
 @staff_member_required
-def application_admin_view(request, pk):
-    app = get_object_or_404(CapApplication, pk=pk)
-    return render(request, 'application_view.html', {'app': app, 'admin_mode': True})
-
+def first_year_applications_list(request):
+    applications = FirstYearAdmission.objects.all().order_by('-submitted_at')
+    print(applications)
+    return render(request, 'first_year_applications_list.html', {'applications': applications})
 
 @staff_member_required
-def download_application_pdf_by_id(request, pk):
-    app = get_object_or_404(CapApplication, pk=pk)
+def second_year_applications_list(request):
+    applications = SecondYearAdmission.objects.all().order_by('-submitted_at')
+    return render(request, 'second_year_applications_list.html', {'applications': applications})
+
+@user_passes_test(lambda u: u.is_staff)
+def first_year_application_detail(request, pk):
+    app = get_object_or_404(FirstYearAdmission, pk=pk)
+    return render(request, 'first_year_admission_detail.html', {'app': app, 'admin_mode': True})
+
+@staff_member_required
+def second_year_application_detail(request, pk):
+    app = get_object_or_404(SecondYearAdmission, pk=pk)
+    return render(request, 'second_year_admission_detail.html', {'app': app, 'admin_mode': True})
+
+@staff_member_required
+def download_first_year_application_pdf(request, pk):
+    app = get_object_or_404(FirstYearAdmission, pk=pk)
     html_string = render_to_string('application_pdf.html', {'app': app})
     html = HTML(string=html_string, base_url=request.build_absolute_uri())
     pdf = html.write_pdf()
     response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="CAP_Application_{app.pk}.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="FirstYear_Application_{app.id}.pdf"'
+    return response
+
+@staff_member_required
+def download_second_year_application_pdf(request, pk):
+    app = get_object_or_404(SecondYearAdmission, pk=pk)
+    html_string = render_to_string('application_pdf.html', {'app': app})
+    html = HTML(string=html_string, base_url=request.build_absolute_uri())
+    pdf = html.write_pdf()
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="SecondYear_Application_{app.id}.pdf"'
     return response
 
 @staff_member_required
 def export_applications_excel(request):
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "Applications"
+    wb = Workbook()
 
-    # Define the headers
-    headers = [
-        "ID", "Applicant Name", "Email", "Percentile", "Submitted On"
-        # add more fields if desired
+    # ===== First Sheet: First Year Applications =====
+    ws1 = wb.active
+    ws1.title = "First Year Applications"
+
+    fe_headers = [
+        "Full Name", "Religion", "DOB", "Student Cell", "Student Email",
+        "Nationality", "MHT CET Percentile", "State Merit No", "Application ID"
     ]
-    ws.append(headers)
+    ws1.append(fe_headers)
 
-    # Populate rows
-    for app in CapApplication.objects.all().order_by('-submitted_at'):
-        ws.append([
-            app.id,
-            f"{app.first_name} {app.surname}",
+    fe_apps = FirstYearAdmission.objects.all().order_by('-submitted_at')
+    for app in fe_apps:
+        dob = f"{app.dob_day:02d}/{app.dob_month:02d}/{app.dob_year}"
+        ws1.append([
+            app.full_name,
+            app.religion,
+            dob,
+            app.student_cell_no,
             app.student_email,
-            app.mhtcet_percentile,
-            app.submitted_at.strftime('%Y-%m-%d %H:%M'),
-            # add more fields as needed
+            app.nationality,
+            getattr(app, 'mht_cet_percentile', ''),
+            getattr(app, 'state_merit_no', ''),
+            app.application_id,
         ])
 
-    # Adjust column widths
-    for i, col in enumerate(ws.columns, 1):
-        max_length = max(len(str(cell.value)) for cell in col)
-        ws.column_dimensions[get_column_letter(i)].width = max_length + 3
+    # Adjust column widths for FE
+    for i, col in enumerate(ws1.columns, 1):
+        max_length = max(len(str(cell.value)) if cell.value else 0 for cell in col)
+        ws1.column_dimensions[chr(64 + i)].width = max_length + 3
 
-    # Create response
+    # ===== Second Sheet: Second Year Applications =====
+    ws2 = wb.create_sheet(title="Second Year Applications")
+
+    se_headers = [
+        "Full Name", "Religion", "DOB", "Student Cell", "Student Email",
+        "Nationality", "Passed Diploma Branch", "Diploma Passing Percentage", "Application ID"
+    ]
+    ws2.append(se_headers)
+
+    se_apps = SecondYearAdmission.objects.all().order_by('-submitted_at')
+    for app in se_apps:
+        dob = f"{app.dob_day:02d}/{app.dob_month:02d}/{app.dob_year}"
+        ws2.append([
+            app.full_name,
+            app.religion,
+            dob,
+            app.student_cell_no,
+            app.student_email,
+            app.nationality,
+            getattr(app, 'passed_diploma_branch', ''),
+            getattr(app, 'diploma_passing_percentage', ''),
+            app.application_id,
+        ])
+
+    # Adjust column widths for SE
+    for i, col in enumerate(ws2.columns, 1):
+        max_length = max(len(str(cell.value)) if cell.value else 0 for cell in col)
+        ws2.column_dimensions[chr(64 + i)].width = max_length + 3
+
+    # Save workbook to in-memory file
     file_stream = BytesIO()
     wb.save(file_stream)
-    file_stream.seek(0)  # Go to the beginning of the stream
+    file_stream.seek(0)
 
+    # Return response
     response = HttpResponse(
         file_stream.getvalue(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-    response['Content-Disposition'] = 'attachment; filename=all_applications.xlsx'
+    response['Content-Disposition'] = 'attachment; filename=fe_se_applications.xlsx'
     return response

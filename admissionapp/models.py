@@ -23,7 +23,7 @@ class FirstYearAdmission(models.Model):
     place_of_birth = models.CharField(max_length=255)  # Place of Birth including District and State in single text
     nationality = models.CharField(max_length=100)
 
-    mht_cet_percentile = models.DecimalField(max_digits=6, decimal_places=2)
+    mht_cet_percentile = models.DecimalField(max_digits=10, decimal_places=7)
     state_merit_no = models.CharField(max_length=50)
     application_id = models.CharField(max_length=50, unique=True)  # Application ID - likely unique
 
@@ -50,7 +50,7 @@ class SecondYearAdmission(models.Model):
     nationality = models.CharField(max_length=100)
 
     passed_diploma_branch = models.CharField(max_length=255, blank=True, null=True)
-    diploma_passing_percentage = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    diploma_passing_percentage = models.DecimalField(max_digits=10, decimal_places=7)
 
     application_id = models.CharField(max_length=50, unique=True)
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>CAP Admission Application - {{ app.first_name }} {{ app.surname }}</title>
+    <title>CAP Admission Application - {{ app.full_name|default:"" }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,18 +11,18 @@
         }
         h1, h2 {
             text-align: center;
-            color: #004085; /* dark blue */
+            color: #004085;
             margin-bottom: 10px;
         }
         h2 {
-            margin-top: 40px;
+            margin-top: 30px;
             border-bottom: 2px solid #004085;
-            padding-bottom: 5px;
+            padding-bottom: 2px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 12px;
             margin-bottom: 25px;
         }
         th, td {
@@ -31,7 +31,7 @@
             vertical-align: top;
         }
         th {
-            background-color: #e9f0fb; /* light blue */
+            background-color: #e9f0fb;
             text-align: left;
             width: 30%;
         }
@@ -45,153 +45,95 @@
 </head>
 <body>
 
-    <div style="text-align: center; margin: 20px 0;">
+<div style="text-align: center; margin: 20px 0;">
     <img src="https://www.dbit.in/images/dbit_logo_header.png" alt="logo" style="max-height: 180px;">
-    </div>
+</div>
 
+<h1>Don Bosco Institute of Technology</h1>
+<h3 align="center">
+    Application for Admission - Academic Year 2025-26 (Against CAP Seat)
+</h3>
+<h2>{{ app.full_name|default:"" }}</h2>
 
-    <h1> Don Bosco Institute of Technology</h1>
-    <h3 align="center">Application for Admission to First Year of Four Year Full Time Degree Course in Engineering for the Academic Year 2025-26 for Against CAP Seat</h3>
-    <h2>{{ app.first_name }} {{ app.surname }}</h2>
+<!-- Candidate Details -->
+<div class="section">
+    <h2>1. Candidate Details</h2>
+    <table>
+        <tr><th>Full Name</th><td>{{ app.full_name|default:"Test" }}</td></tr>
+        {% if app.religion %}<tr><th>Religion</th><td>{{ app.religion }}</td></tr>{% endif %}
+        {% if app.dob_day and app.dob_month and app.dob_year %}
+        <tr>
+            <th>Date of Birth</th>
+            <td>{{ app.dob_day|stringformat:"02d" }}/{{ app.dob_month|stringformat:"02d" }}/{{ app.dob_year }}</td>
+        </tr>
+        {% elif app.dob %}
+        <tr><th>Date of Birth</th><td>{{ app.dob }}</td></tr>
+        {% endif %}
+        {% if app.place_of_birth %}<tr><th>Place of Birth</th><td>{{ app.place_of_birth }}</td></tr>{% endif %}
+        {% if app.nationality %}<tr><th>Nationality</th><td>{{ app.nationality }}</td></tr>{% endif %}
+    </table>
+</div>
 
-    <div class="section">
-        <h2>1. Candidate Details</h2>
-        <table>
-            <tr><th>Surname</th><td>{{ app.surname }}</td></tr>
-            <tr><th>First Name</th><td>{{ app.first_name }}</td></tr>
-            <tr><th>Father's Name</th><td>{{ app.father_name }}</td></tr>
-            <tr><th>Mother's Name</th><td>{{ app.mother_name }}</td></tr>
-            <tr><th>Gender</th><td>{{ app.gender }}</td></tr>
-            <tr><th>Mother Tongue</th><td>{{ app.mother_tongue }}</td></tr>
-            <tr><th>Religion</th><td>{{ app.religion }}</td></tr>
-            <tr><th>Caste</th><td>{{ app.caste }}</td></tr>
-            <tr><th>Seat Type</th><td>{{ app.seat_type }}</td></tr>
-            <tr><th>Category (as per allotment letter)</th><td>{{ app.category_allotment }}</td></tr>
-            <tr><th>Anti-Ragging Ref No.</th><td>{{ app.anti_ragging_ref }}</td></tr>
-            <tr><th>Date of Birth</th><td>{{ app.dob }}</td></tr>
-            <tr><th>Age</th><td>{{ app.age }}</td></tr>
-            <tr><th>Place of Birth</th><td>{{ app.birth_place }}</td></tr>
-            <tr><th>District</th><td>{{ app.birth_district }}</td></tr>
-            <tr><th>State</th><td>{{ app.birth_state }}</td></tr>
-            <tr><th>Nationality</th><td>{{ app.nationality }}</td></tr>
-        </table>
-    </div>
+<!-- Contact and Address -->
+<div class="section">
+    <h2>2. Contact & Address</h2>
+    <table>
+        {% if app.correspondence_address %}
+        <tr><th>Correspondence Address</th><td>{{ app.correspondence_address }}</td></tr>
+        {% endif %}
+        {% if app.student_email %}
+        <tr><th>Student Email</th><td>{{ app.student_email }}</td></tr>
+        {% endif %}
+        {% if app.student_cell_no %}
+        <tr><th>Student Cell No.</th><td>{{ app.student_cell_no }}</td></tr>
+        {% elif app.student_cell %}
+        <tr><th>Student Cell No.</th><td>{{ app.student_cell }}</td></tr>
+        {% endif %}
+        {% if app.father_cell_no %}
+        <tr><th>Father's Cell No.</th><td>{{ app.father_cell_no }}</td></tr>
+        {% elif app.father_cell %}
+        <tr><th>Father's Cell No.</th><td>{{ app.father_cell }}</td></tr>
+        {% endif %}
+    </table>
+</div>
 
-    <div class="section">
-        <h2>2. Addresses & Contact</h2>
-        <table>
-            <tr>
-                <th>Correspondence Address</th>
-                <td>{{ app.correspondence_address }}</td>
-            </tr>
-            <tr>
-                <th>Correspondence Pin</th>
-                <td>{{ app.correspondence_pin }}</td>
-            </tr>
-            <tr>
-                <th>Permanent Address</th>
-                <td>{{ app.permanent_address }}</td>
-            </tr>
-            <tr>
-                <th>Permanent Pin</th>
-                <td>{{ app.permanent_pin }}</td>
-            </tr>
-            <tr>
-                <th>Student Email</th>
-                <td>{{ app.student_email }}</td>
-            </tr>
-            <tr>
-                <th>Student Cell</th>
-                <td>{{ app.student_cell }}</td>
-            </tr>
-            <tr>
-                <th>Father's Cell</th>
-                <td>{{ app.father_cell }}</td>
-            </tr>
-            <tr>
-                <th>Mother's Cell</th>
-                <td>{{ app.mother_cell }}</td>
-            </tr>
-        </table>
-    </div>
+<!-- For Direct Second Year only fields -->
+{% if app.passed_diploma_branch or app.diploma_passing_percentage %}
+<div class="section">
+    <h2>3. Diploma Details (Direct Second Year Only)</h2>
+    <table>
+        {% if app.passed_diploma_branch %}
+        <tr><th>Passed Diploma Branch</th><td>{{ app.passed_diploma_branch }}</td></tr>
+        {% endif %}
+        {% if app.diploma_passing_percentage %}
+        <tr><th>Diploma Passing Percentage</th><td>{{ app.diploma_passing_percentage }}%</td></tr>
+        {% endif %}
+        {% if app.application_id %}
+        <tr><th>Application ID</th><td>{{ app.application_id }}</td></tr>
+        {% endif %}
+    </table>
+</div>
+{% endif %}
 
-    <div class="section">
-        <h2>3. Parent/Guardian Details</h2>
-        <table>
-            <tr><th>Father's Name</th><td>{{ app.father_fullname }}</td></tr>
-            <tr><th>Father's Designation</th><td>{{ app.father_designation }}</td></tr>
-            <tr><th>Father's Email</th><td>{{ app.father_email }}</td></tr>
-            <tr><th>Father's Annual Income</th><td>{{ app.father_income }}</td></tr>
-            <tr><th>Father's Office Address</th><td>{{ app.father_office_address }}</td></tr>
-            <tr><th>Mother's Name</th><td>{{ app.mother_fullname }}</td></tr>
-            <tr><th>Mother's Designation</th><td>{{ app.mother_designation }}</td></tr>
-            <tr><th>Mother's Email</th><td>{{ app.mother_email }}</td></tr>
-            <tr><th>Mother's Annual Income</th><td>{{ app.mother_income }}</td></tr>
-            <tr><th>Mother's Office Address</th><td>{{ app.mother_office_address }}</td></tr>
-        </table>
-    </div>
+<!-- MHT-CET & Application info (common) -->
+<div class="section">
+    {% if is_fe_app %}
+    <h2>4. MHT-CET & Application Info</h2>
+    <table>
+        {% if app.mht_cet_percentile %}
+        <tr><th>MHT CET Percentile</th><td>{{ app.mht_cet_percentile }}</td></tr>
+        {% elif app.mhtcet_percentile %}
+        <tr><th>MHT CET Percentile</th><td>{{ app.mhtcet_percentile }}</td></tr>
+        {% endif %}
+        {% if app.state_merit_no %}
+        <tr><th>State Merit No</th><td>{{ app.state_merit_no }}</td></tr>
+        {% endif %}
+        {% if app.application_id %}
+        <tr><th>Application ID</th><td>{{ app.application_id }}</td></tr>
+        {% endif %}
+    </table>
+    {% endif %}
+</div>
 
-    <div class="section">
-        <h2>4. Academic Details</h2>
-        <table>
-            <tr><th>Name as per HSC Marksheet</th><td>{{ app.name_hsc }}</td></tr>
-            <tr><th>HSC Gender</th><td>{{ app.hsc_gender }}</td></tr>
-        </table>
-
-        <h3>X (SSC) Examination</h3>
-        <table>
-            <tr><th>Passing Month/Year</th><td>{{ app.x_passing_month_year }}</td></tr>
-            <tr><th>School Name & Address</th><td>{{ app.x_school }}</td></tr>
-            <tr><th>Board</th><td>{{ app.x_board }}</td></tr>
-        </table>
-
-        <h3>XII (HSC) Examination</h3>
-        <table>
-            <tr><th>Passing Month/Year</th><td>{{ app.xii_passing_month_year }}</td></tr>
-            <tr><th>School Name & Address</th><td>{{ app.xii_school }}</td></tr>
-            <tr><th>Board</th><td>{{ app.xii_board }}</td></tr>
-        </table>
-
-        <h3>MHT-CET 2025 Details</h3>
-        <table>
-            <tr><th>Roll No</th><td>{{ app.mhtcet_rollno }}</td></tr>
-            <tr><th>State Merit No</th><td>{{ app.state_merit_no }}</td></tr>
-            <tr><th>Percentile</th><td>{{ app.mhtcet_percentile }}</td></tr>
-            <tr><th>Application ID</th><td>{{ app.application_id }}</td></tr>
-        </table>
-    </div>
-
-    <div class="section">
-        <h2>5. Inter-se Merit & Qualifying Marks</h2>
-        <h3>A. XIIth Marks</h3>
-        <table>
-            <tr><th>Physics</th><td>{{ app.xii_phy }}</td></tr>
-            <tr><th>Chemistry</th><td>{{ app.xii_chem }}</td></tr>
-            <tr><th>Mathematics</th><td>{{ app.xii_math }}</td></tr>
-        </table>
-
-        <h3>B. Qualifying Exam (Out of 300, PCM)</h3>
-        <table>
-            <tr><th>Physics</th><td>{{ app.qualifying_phy }}</td></tr>
-            <tr><th>Chemistry</th><td>{{ app.qualifying_chem }}</td></tr>
-            <tr><th>Mathematics</th><td>{{ app.qualifying_math }}</td></tr>
-        </table>
-
-        <h3>C. Tie Breaker Fields</h3>
-        <table>
-            <tr><th>SSC Aggregate Marks</th><td>{{ app.ssc_agg }}</td></tr>
-            <tr><th>SSC Out of</th><td>{{ app.ssc_outof }}</td></tr>
-            <tr><th>SSC Percentage</th><td>{{ app.ssc_percentage }}%</td></tr>
-            <tr><th>SSC Mathematics</th><td>{{ app.ssc_math }}</td></tr>
-            <tr><th>SSC Math Out of</th><td>{{ app.ssc_math_outof }}</td></tr>
-            <tr><th>SSC Math Percentage</th><td>{{ app.ssc_math_percentage }}%</td></tr>
-            <tr><th>HSC Aggregate Marks</th><td>{{ app.hsc_agg }}</td></tr>
-            <tr><th>HSC Out of</th><td>{{ app.hsc_outof }}</td></tr>
-            <tr><th>HSC Percentage</th><td>{{ app.hsc_percentage }}%</td></tr>
-        </table>
-
-        Note: This form must be printed and submitted with the required certificates to the admission office on or before the last date.
-        <h3>Signature of the Candidate :</h3>
-    </div>
 </body>
 </html>

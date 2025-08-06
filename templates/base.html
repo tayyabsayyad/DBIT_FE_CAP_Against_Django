@@ -36,6 +36,7 @@
         .content {
             margin-left: 220px;
             padding: 20px;
+            display: block;
         }
 
         @media (max-width: 768px) {
@@ -67,18 +68,21 @@
 <div class="sidebar">
     <a href="{% url 'admissionapp:dashboard' %}" class="{% if request.path == '/' %}active{% endif %}">Dashboard</a>
     {% if user.is_authenticated %}
-        {#        <a href="{% url 'admissionapp:dashboard' %}"#}
-        {#           class="{% if request.path == '/application/' %}active{% endif %}">Apply</a>#}
-
-        <a href="{% url 'admissionapp:application_view' %}">View Application</a>
-        {#        <a href="{% url 'admissionapp:application_edit' %}">Edit Application</a>#}
-
 
         {% if user.is_staff %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'admissionapp:application_list' %}">All Applications (Admin)</a>
+                <a class="nav-link" href="{% url 'admissionapp:first_year_applications_list' %}">FE Applications</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'admissionapp:second_year_applications_list' %}">DSE Applications</a>
+            </li>
+
+            <a href="{% url 'admissionapp:export_applications_excel' %}" class="btn btn-success">
+                Export FE & SE Applications to Excel
+            </a>
+
         {% endif %}
+
 
         <form method="post" action="{% url 'admissionapp:logout' %}" style="display:inline;">
             {% csrf_token %}
@@ -97,10 +101,12 @@
 
 
 <div class="content">
+
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                 {{ message }}
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}
