@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block content %}
+
+    <br><br><br><br>
 <h2>First Year Admission Form</h2>
+<br><br>
 <form method="post" novalidate>
     {% csrf_token %}
     {{ form.non_field_errors }}
@@ -14,6 +17,9 @@
         {% endfor %}
       </div>
     {% endfor %}
+    <h6><b>Note: Please Note MHT cet percentile should be entered in 7 decimal points</b></h6>
     <button type="submit" class="btn btn-primary">Submit</button>
+
 </form>
+    <br><br>  <br><br>
 {% endblock %}

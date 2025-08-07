@@ -2,7 +2,9 @@
 {% load widget_tweaks %}
 
 {% block content %}
+      <br><br>  <br><br>
 <h2>Direct Second Year Diploma Admission Form</h2>
+    <br><br>
 <form method="post" novalidate>
     {% csrf_token %}
     {{ form.non_field_errors }}
@@ -19,4 +21,5 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+    <br><br>  <br><br>
 {% endblock %}
